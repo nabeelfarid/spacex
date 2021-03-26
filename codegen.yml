@@ -1,0 +1,10 @@
+schema: "https://api.spacex.land/graphql/"
+overwrite: true
+watch: true
+documents: "src/**/!(*.d).{ts,tsx}"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
