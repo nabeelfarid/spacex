@@ -1,0 +1,9 @@
+query LaunchesPast {
+  launchesPast {
+    id
+    mission_name
+    details
+    launch_year
+    launch_date_utc
+  }
+}

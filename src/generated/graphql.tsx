@@ -1323,99 +1323,53 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type HistoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type LaunchesPastQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HistoriesQuery = (
+export type LaunchesPastQuery = (
   { __typename?: 'Query' }
-  & { histories?: Maybe<Array<Maybe<(
-    { __typename?: 'History' }
-    & Pick<History, 'title' | 'id' | 'details'>
+  & { launchesPast?: Maybe<Array<Maybe<(
+    { __typename?: 'Launch' }
+    & Pick<Launch, 'id' | 'mission_name' | 'details' | 'launch_year' | 'launch_date_utc'>
   )>>> }
 );
 
-export type HistoryQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
 
-
-export type HistoryQuery = (
-  { __typename?: 'Query' }
-  & { history?: Maybe<(
-    { __typename?: 'History' }
-    & Pick<History, 'id'>
-  )> }
-);
-
-
-export const HistoriesDocument = gql`
-    query Histories {
-  histories {
-    title
+export const LaunchesPastDocument = gql`
+    query LaunchesPast {
+  launchesPast {
     id
+    mission_name
     details
+    launch_year
+    launch_date_utc
   }
 }
     `;
 
 /**
- * __useHistoriesQuery__
+ * __useLaunchesPastQuery__
  *
- * To run a query within a React component, call `useHistoriesQuery` and pass it any options that fit your needs.
- * When your component renders, `useHistoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLaunchesPastQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLaunchesPastQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHistoriesQuery({
+ * const { data, loading, error } = useLaunchesPastQuery({
  *   variables: {
  *   },
  * });
  */
-export function useHistoriesQuery(baseOptions?: Apollo.QueryHookOptions<HistoriesQuery, HistoriesQueryVariables>) {
+export function useLaunchesPastQuery(baseOptions?: Apollo.QueryHookOptions<LaunchesPastQuery, LaunchesPastQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HistoriesQuery, HistoriesQueryVariables>(HistoriesDocument, options);
+        return Apollo.useQuery<LaunchesPastQuery, LaunchesPastQueryVariables>(LaunchesPastDocument, options);
       }
-export function useHistoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HistoriesQuery, HistoriesQueryVariables>) {
+export function useLaunchesPastLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LaunchesPastQuery, LaunchesPastQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HistoriesQuery, HistoriesQueryVariables>(HistoriesDocument, options);
+          return Apollo.useLazyQuery<LaunchesPastQuery, LaunchesPastQueryVariables>(LaunchesPastDocument, options);
         }
-export type HistoriesQueryHookResult = ReturnType<typeof useHistoriesQuery>;
-export type HistoriesLazyQueryHookResult = ReturnType<typeof useHistoriesLazyQuery>;
-export type HistoriesQueryResult = Apollo.QueryResult<HistoriesQuery, HistoriesQueryVariables>;
-export const HistoryDocument = gql`
-    query History($id: ID!) {
-  history(id: $id) {
-    id
-  }
-}
-    `;
-
-/**
- * __useHistoryQuery__
- *
- * To run a query within a React component, call `useHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHistoryQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useHistoryQuery(baseOptions: Apollo.QueryHookOptions<HistoryQuery, HistoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HistoryQuery, HistoryQueryVariables>(HistoryDocument, options);
-      }
-export function useHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HistoryQuery, HistoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HistoryQuery, HistoryQueryVariables>(HistoryDocument, options);
-        }
-export type HistoryQueryHookResult = ReturnType<typeof useHistoryQuery>;
-export type HistoryLazyQueryHookResult = ReturnType<typeof useHistoryLazyQuery>;
-export type HistoryQueryResult = Apollo.QueryResult<HistoryQuery, HistoryQueryVariables>;
+export type LaunchesPastQueryHookResult = ReturnType<typeof useLaunchesPastQuery>;
+export type LaunchesPastLazyQueryHookResult = ReturnType<typeof useLaunchesPastLazyQuery>;
+export type LaunchesPastQueryResult = Apollo.QueryResult<LaunchesPastQuery, LaunchesPastQueryVariables>;
