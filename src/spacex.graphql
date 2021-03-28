@@ -1,9 +1,20 @@
 query LaunchesPast {
   launchesPast {
-    id
-    mission_name
-    details
-    launch_year
-    launch_date_utc
+    ...LaunchFields
+  }
+}
+
+fragment LaunchFields on Launch {
+  id
+  mission_name
+  launch_date_utc
+  details
+  launch_year
+  links {
+    flickr_images
+    video_link
+    wikipedia
+    article_link
+    reddit_launch
   }
 }

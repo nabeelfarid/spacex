@@ -1,4 +1,6 @@
 import { useLaunchesPastQuery } from "../generated/graphql";
+import LaunchListItem from "./LaunchListItem";
+import Grid from "@material-ui/core/Grid";
 
 const LaunchList = () => {
   const { data, loading, error } = useLaunchesPastQuery();
@@ -13,12 +15,13 @@ const LaunchList = () => {
           <pre>{JSON.stringify(error)}</pre>{" "}
         </div>
       )}
-      {data &&
-        data.launchesPast?.map((launch) => (
-          <div key={launch?.id}>
-            {launch?.mission_name} - {launch?.launch_year}
-          </div>
-        ))}
+      {data && (
+        <Grid container spacing={3}>
+          {data.launchesPast?.map((launch) => {
+            return !!launch && <LaunchListItem launch={launch} />;
+          })}
+        </Grid>
+      )}
     </div>
   );
 };
