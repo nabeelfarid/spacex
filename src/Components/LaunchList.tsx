@@ -12,13 +12,15 @@ const LaunchList = () => {
       {error && (
         <div>
           ERROR:
-          <pre>{JSON.stringify(error)}</pre>{" "}
+          <pre>{JSON.stringify(error)}</pre>
         </div>
       )}
       {data && (
         <Grid container spacing={3}>
           {data.launchesPast?.map((launch) => {
-            return !!launch && <LaunchListItem launch={launch} />;
+            return (
+              !!launch && <LaunchListItem launch={launch} key={launch.id} />
+            );
           })}
         </Grid>
       )}

@@ -1267,7 +1267,14 @@ export type LaunchesPastQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LaunchesPastQuery = { launchesPast: Maybe<Array<Maybe<LaunchFieldsFragment>>> };
 
-export type LaunchFieldsFragment = { id: Maybe<string>, mission_name: Maybe<string>, launch_date_utc: Maybe<any>, details: Maybe<string>, launch_year: Maybe<string>, links: Maybe<{ flickr_images: Maybe<Array<Maybe<string>>>, video_link: Maybe<string>, wikipedia: Maybe<string>, article_link: Maybe<string>, reddit_launch: Maybe<string> }> };
+export type LaunchFieldsFragment = { id: Maybe<string>, mission_name: Maybe<string>, launch_date_utc: Maybe<any>, details: Maybe<string>, launch_year: Maybe<string>, links: Maybe<{ mission_patch_small: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, video_link: Maybe<string>, wikipedia: Maybe<string>, article_link: Maybe<string>, reddit_launch: Maybe<string> }> };
+
+export type LaunchDetailsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type LaunchDetailsQuery = { launch: Maybe<{ id: Maybe<string>, launch_date_utc: Maybe<any>, details: Maybe<string>, launch_year: Maybe<string>, launch_success: Maybe<boolean>, mission_name: Maybe<string>, launch_site: Maybe<{ site_name: Maybe<string>, site_name_long: Maybe<string> }>, links: Maybe<{ mission_patch: Maybe<string>, mission_patch_small: Maybe<string>, article_link: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, presskit: Maybe<string>, reddit_campaign: Maybe<string>, reddit_launch: Maybe<string>, reddit_media: Maybe<string>, reddit_recovery: Maybe<string>, video_link: Maybe<string>, wikipedia: Maybe<string> }> }> };
 
 export const LaunchFieldsFragmentDoc = gql`
     fragment LaunchFields on Launch {
@@ -1277,6 +1284,7 @@ export const LaunchFieldsFragmentDoc = gql`
   details
   launch_year
   links {
+    mission_patch_small
     flickr_images
     video_link
     wikipedia
@@ -1319,3 +1327,60 @@ export function useLaunchesPastLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type LaunchesPastQueryHookResult = ReturnType<typeof useLaunchesPastQuery>;
 export type LaunchesPastLazyQueryHookResult = ReturnType<typeof useLaunchesPastLazyQuery>;
 export type LaunchesPastQueryResult = Apollo.QueryResult<LaunchesPastQuery, LaunchesPastQueryVariables>;
+export const LaunchDetailsDocument = gql`
+    query LaunchDetails($id: ID!) {
+  launch(id: $id) {
+    id
+    launch_date_utc
+    details
+    launch_year
+    launch_success
+    launch_site {
+      site_name
+      site_name_long
+    }
+    mission_name
+    links {
+      mission_patch
+      mission_patch_small
+      article_link
+      flickr_images
+      presskit
+      reddit_campaign
+      reddit_launch
+      reddit_media
+      reddit_recovery
+      video_link
+      wikipedia
+    }
+  }
+}
+    `;
+
+/**
+ * __useLaunchDetailsQuery__
+ *
+ * To run a query within a React component, call `useLaunchDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLaunchDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLaunchDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLaunchDetailsQuery(baseOptions: Apollo.QueryHookOptions<LaunchDetailsQuery, LaunchDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LaunchDetailsQuery, LaunchDetailsQueryVariables>(LaunchDetailsDocument, options);
+      }
+export function useLaunchDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LaunchDetailsQuery, LaunchDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LaunchDetailsQuery, LaunchDetailsQueryVariables>(LaunchDetailsDocument, options);
+        }
+export type LaunchDetailsQueryHookResult = ReturnType<typeof useLaunchDetailsQuery>;
+export type LaunchDetailsLazyQueryHookResult = ReturnType<typeof useLaunchDetailsLazyQuery>;
+export type LaunchDetailsQueryResult = Apollo.QueryResult<LaunchDetailsQuery, LaunchDetailsQueryVariables>;
