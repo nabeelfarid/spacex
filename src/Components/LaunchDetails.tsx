@@ -1,8 +1,10 @@
 import {
+  Box,
   Card,
+  CardActionArea,
   CardContent,
   CardHeader,
-  CardMedia,
+  CircularProgress,
   Grid,
   makeStyles,
   Paper,
@@ -18,6 +20,18 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     // paddingTop: "56.25%", // 16:9
+  },
+
+  gridListContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    // width: 500,
+    height: 450,
   },
 }));
 
@@ -42,85 +56,105 @@ const LaunchDetails = () => {
 
   return (
     <>
-      <h1>Launch Details</h1>
       {error && (
-        <div>
-          ERROR:
-          <pre>{JSON.stringify(error)}</pre>
-        </div>
+        <Box mt={4} textAlign="center">
+          <Typography variant="h4" color="error" gutterBottom>
+            ERROR:
+          </Typography>
+
+          <Typography component="div">
+            <Box letterSpacing={4}>{JSON.stringify(error)}</Box>
+          </Typography>
+        </Box>
       )}
-      {loading && <div>LOADING...</div>}
+      {loading && (
+        <Box mt={4} textAlign="center">
+          <Typography variant="h4" gutterBottom>
+            LOADING...
+          </Typography>
+          <CircularProgress size={100} thickness={4} />
+        </Box>
+      )}
       {data && (
         <div>
-          <Grid container spacing={2}>
-            {data.launch?.links && (
-              <>
-                {/* <Grid item xs={6}>
-                  <Card variant="outlined">
-                    <CardMedia
-                      component="img"
-                      src={String(data.launch.links.mission_patch_small)}
-                      title={
-                        data.launch.mission_name
-                          ? data.launch.mission_name
-                          : "SpaceX"
-                      }
-                      alt={
-                        data.launch.mission_name
-                          ? data.launch.mission_name
-                          : "SpaceX"
-                      }
-                      height="100%"
-                      onError={(
-                        e: React.SyntheticEvent<HTMLImageElement, Event>
-                      ) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = DEFAULT_IMAGE;
-                      }}
-                    />
-                  </Card>
-                </Grid> */}
-                <Grid item xs={6}>
-                  <Paper variant="outlined">
-                    <Image
-                      color="inherit"
-                      imageStyle={{ borderRadius: "4px" }}
-                      src={String(data.launch.links.mission_patch_small)}
-                      disableError={true}
-                      onError={(e) => {
-                        if (e) {
-                          e.currentTarget.src = mainImage;
+          <Box mt={4}>
+            <Grid container spacing={3}>
+              {data.launch?.links && (
+                <>
+                  <Grid item xs={12}>
+                    <Typography variant="h4">Launch Details</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Paper variant="outlined">
+                      <Image
+                        color="inherit"
+                        imageStyle={{ borderRadius: "4px" }}
+                        src={String(data.launch.links.mission_patch_small)}
+                        disableError={true}
+                        onError={(e) => {
+                          if (e) {
+                            e.currentTarget.src = mainImage;
+                          }
+                        }}
+                        title={
+                          data.launch.mission_name
+                            ? data.launch.mission_name
+                            : "SpaceX"
                         }
-                      }}
-                      title={
-                        data.launch.mission_name
-                          ? data.launch.mission_name
-                          : "SpaceX"
-                      }
-                      alt={
-                        data.launch.mission_name
-                          ? data.launch.mission_name
-                          : "SpaceX"
-                      }
-                    />
-                  </Paper>
-                </Grid>
-              </>
-            )}
-            <Grid item xs={6}>
-              <Card variant="outlined">
-                <CardHeader
-                  title={`Mission: ${data.launch?.mission_name}`}
-                  subheader={`Launch Date: ${new Date(
-                    data.launch?.launch_date_utc
-                  ).toDateString()}`}
-                ></CardHeader>
-                <CardContent>
-                  <Typography>{data.launch?.details}</Typography>
-                </CardContent>
-              </Card>
+                        alt={
+                          data.launch.mission_name
+                            ? data.launch.mission_name
+                            : "SpaceX"
+                        }
+                      />
+                    </Paper>
+                  </Grid>
+                </>
+              )}
+              <Grid item xs={6}>
+                <Card variant="outlined">
+                  <CardHeader
+                    title={`Mission: ${data.launch?.mission_name}`}
+                    subheader={`Launch Date: ${new Date(
+                      data.launch?.launch_date_utc
+                    ).toDateString()}`}
+                  ></CardHeader>
+                  <CardContent>
+                    <Typography>{data.launch?.details}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
+          {data.launch?.links?.flickr_images &&
+            data.launch?.links?.flickr_images.length > 0 && (
+              <Box mt={4}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <Typography variant="h4">Pictures</Typography>
+                  </Grid>
+                  {data.launch.links.flickr_images.map((image, index) => {
+                    return (
+                      <Grid item xs={4} key={index}>
+                        <Card variant="outlined">
+                          <a
+                            href={image ? image : DEFAULT_IMAGE}
+                            target="blank"
+                          >
+                            <CardActionArea>
+                              <Image
+                                color="inherit"
+                                src={image ? image : DEFAULT_IMAGE}
+                              />
+                            </CardActionArea>
+                          </a>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Box>
+            )}
         </div>
       )}
     </>

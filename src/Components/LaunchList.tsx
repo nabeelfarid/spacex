@@ -1,28 +1,44 @@
 import { useLaunchesPastQuery } from "../generated/graphql";
 import LaunchListItem from "./LaunchListItem";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Box, CircularProgress, Typography } from "@material-ui/core";
 
 const LaunchList = () => {
   const { data, loading, error } = useLaunchesPastQuery();
 
   return (
     <div>
-      <h1>SpaceX Launches</h1>
-      {loading && <div>LOADING...</div>}
       {error && (
-        <div>
-          ERROR:
-          <pre>{JSON.stringify(error)}</pre>
-        </div>
+        <Box mt={4} textAlign="center">
+          <Typography variant="h4" color="error" gutterBottom>
+            ERROR:
+          </Typography>
+
+          <Typography component="div">
+            <Box letterSpacing={4}>{JSON.stringify(error)}</Box>
+          </Typography>
+        </Box>
+      )}
+      {loading && (
+        <Box mt={4} textAlign="center">
+          <Typography variant="h4" gutterBottom>
+            LOADING...
+          </Typography>
+          <CircularProgress size={100} thickness={4} />
+        </Box>
       )}
       {data && (
-        <Grid container spacing={3}>
-          {data.launchesPast?.map((launch) => {
-            return (
-              !!launch && <LaunchListItem launch={launch} key={launch.id} />
-            );
-          })}
-        </Grid>
+        <Box mt={4}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h4">SpaceX Launches</Typography>
+            </Grid>
+            {data.launchesPast?.map((launch) => {
+              return (
+                !!launch && <LaunchListItem launch={launch} key={launch.id} />
+              );
+            })}
+          </Grid>
+        </Box>
       )}
     </div>
   );

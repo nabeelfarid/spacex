@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -20,25 +19,14 @@ import { Box } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import { Link, useRouteMatch } from "react-router-dom";
 import { DEFAULT_IMAGE } from "../Constants";
+import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    // color: "white",
-    // backgroundColor: "#515151",
   },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  avatar: {
-    backgroundColor: "black",
-  },
-  // actions: {
-  // height: "100%",
-  // },
 }));
 
 const text_truncate = (str: string, length?: number, ending?: string) => {
@@ -83,14 +71,8 @@ const LaunchListItem: React.FC<LaunchListItemProps> = ({ launch }) => {
           <Card className={classes.root} variant="outlined">
             <CardHeader
               avatar={
-                <Avatar
-                  className={classes.avatar}
-                  src={String(launch.links?.mission_patch_small)}
-                >
-                  <Avatar
-                    className={classes.avatar}
-                    src={avatarFallback}
-                  ></Avatar>
+                <Avatar src={String(launch.links?.mission_patch_small)}>
+                  <Avatar src={avatarFallback}></Avatar>
                 </Avatar>
               }
               title={launch.mission_name}
@@ -100,10 +82,19 @@ const LaunchListItem: React.FC<LaunchListItemProps> = ({ launch }) => {
               to={url === "/" ? `${url}${launch.id}` : `${url}/${launch.id}`}
             >
               <CardActionArea>
-                <CardMedia
+                {/* <CardMedia
                   className={classes.media}
                   image={mainImage}
-                  title={launch.mission_name ? launch.mission_name : ""}
+                  title={launch.mission_name ? launch.mission_name : "SpaceX"}
+                /> */}
+
+                <Image
+                  aspectRatio={16 / 9}
+                  color="inherit"
+                  src={mainImage}
+                  disableError={true}
+                  title={launch.mission_name ? launch.mission_name : "SpaceX"}
+                  alt={launch.mission_name ? launch.mission_name : "SpaceX"}
                 />
               </CardActionArea>
             </Link>

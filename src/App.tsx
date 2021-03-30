@@ -2,8 +2,14 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import LaunchList from "./Components/LaunchList";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch, Link } from "react-router-dom";
 import LaunchDetails from "./Components/LaunchDetails";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import { GitHub } from "@material-ui/icons";
+import { Box } from "@material-ui/core";
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -17,6 +23,27 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline>
           <BrowserRouter>
+            <AppBar position="relative" color="default">
+              <Toolbar>
+                <Typography
+                  variant="h6"
+                  component={Link}
+                  to="/"
+                  style={{ color: "inherit", textDecoration: "inherit" }}
+                >
+                  SpaceX
+                </Typography>
+                <Box flexGrow={1} />
+                <IconButton
+                  aria-label="github"
+                  href="https://github.com/nabeelfarid/spacex"
+                  target="blank"
+                  title="Github Repo"
+                >
+                  <GitHub />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
             <Container>
               <Switch>
                 <Route exact path={["/", "/launches"]}>
