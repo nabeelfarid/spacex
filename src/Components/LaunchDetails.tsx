@@ -13,7 +13,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import { deepOrange, green, pink, purple } from "@material-ui/core/colors";
+import { green, pink, purple } from "@material-ui/core/colors";
 import { Info, Description } from "@material-ui/icons/";
 import Image from "material-ui-image";
 import { useParams } from "react-router";
