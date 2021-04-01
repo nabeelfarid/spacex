@@ -1274,7 +1274,7 @@ export type LaunchDetailsQueryVariables = Exact<{
 }>;
 
 
-export type LaunchDetailsQuery = { launch: Maybe<{ id: Maybe<string>, mission_name: Maybe<string>, details: Maybe<string>, launch_date_utc: Maybe<any>, launch_year: Maybe<string>, launch_success: Maybe<boolean>, launch_site: Maybe<{ site_name: Maybe<string>, site_name_long: Maybe<string> }>, links: Maybe<{ mission_patch: Maybe<string>, mission_patch_small: Maybe<string>, article_link: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, presskit: Maybe<string>, reddit_campaign: Maybe<string>, reddit_launch: Maybe<string>, reddit_media: Maybe<string>, reddit_recovery: Maybe<string>, video_link: Maybe<string>, wikipedia: Maybe<string> }>, rocket: Maybe<{ rocket_name: Maybe<string>, rocket_type: Maybe<string> }> }> };
+export type LaunchDetailsQuery = { launch: Maybe<{ id: Maybe<string>, mission_name: Maybe<string>, details: Maybe<string>, launch_date_utc: Maybe<any>, launch_year: Maybe<string>, launch_success: Maybe<boolean>, launch_site: Maybe<{ site_name: Maybe<string>, site_name_long: Maybe<string> }>, links: Maybe<{ mission_patch: Maybe<string>, mission_patch_small: Maybe<string>, article_link: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, presskit: Maybe<string>, reddit_campaign: Maybe<string>, reddit_launch: Maybe<string>, reddit_media: Maybe<string>, reddit_recovery: Maybe<string>, video_link: Maybe<string>, wikipedia: Maybe<string> }>, rocket: Maybe<{ rocket_name: Maybe<string>, rocket_type: Maybe<string>, rocket: Maybe<{ name: Maybe<string>, stages: Maybe<number>, success_rate_pct: Maybe<number>, first_flight: Maybe<any>, company: Maybe<string>, country: Maybe<string>, cost_per_launch: Maybe<number>, description: Maybe<string>, wikipedia: Maybe<string>, height: Maybe<{ meters: Maybe<number> }>, diameter: Maybe<{ meters: Maybe<number> }>, landing_legs: Maybe<{ number: Maybe<number>, material: Maybe<string> }>, mass: Maybe<{ kg: Maybe<number> }> }> }> }> };
 
 export const LaunchFieldsFragmentDoc = gql`
     fragment LaunchFields on Launch {
@@ -1356,6 +1356,30 @@ export const LaunchDetailsDocument = gql`
     rocket {
       rocket_name
       rocket_type
+      rocket {
+        name
+        stages
+        success_rate_pct
+        first_flight
+        company
+        country
+        cost_per_launch
+        description
+        wikipedia
+        height {
+          meters
+        }
+        diameter {
+          meters
+        }
+        landing_legs {
+          number
+          material
+        }
+        mass {
+          kg
+        }
+      }
     }
   }
 }

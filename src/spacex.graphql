@@ -48,6 +48,30 @@ query LaunchDetails($id: ID!) {
     rocket {
       rocket_name
       rocket_type
+      rocket {
+        name
+        stages
+        success_rate_pct
+        first_flight
+        company
+        country
+        cost_per_launch
+        description
+        wikipedia
+        height {
+          meters
+        }
+        diameter {
+          meters
+        }
+        landing_legs {
+          number
+          material
+        }
+        mass {
+          kg
+        }
+      }
     }
   }
 }
