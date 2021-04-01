@@ -23,15 +23,15 @@ fragment LaunchFields on Launch {
 query LaunchDetails($id: ID!) {
   launch(id: $id) {
     id
-    launch_date_utc
+    mission_name
     details
+    launch_date_utc
     launch_year
     launch_success
     launch_site {
       site_name
       site_name_long
     }
-    mission_name
     links {
       mission_patch
       mission_patch_small
@@ -44,6 +44,10 @@ query LaunchDetails($id: ID!) {
       reddit_recovery
       video_link
       wikipedia
+    }
+    rocket {
+      rocket_name
+      rocket_type
     }
   }
 }

@@ -1274,7 +1274,7 @@ export type LaunchDetailsQueryVariables = Exact<{
 }>;
 
 
-export type LaunchDetailsQuery = { launch: Maybe<{ id: Maybe<string>, launch_date_utc: Maybe<any>, details: Maybe<string>, launch_year: Maybe<string>, launch_success: Maybe<boolean>, mission_name: Maybe<string>, launch_site: Maybe<{ site_name: Maybe<string>, site_name_long: Maybe<string> }>, links: Maybe<{ mission_patch: Maybe<string>, mission_patch_small: Maybe<string>, article_link: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, presskit: Maybe<string>, reddit_campaign: Maybe<string>, reddit_launch: Maybe<string>, reddit_media: Maybe<string>, reddit_recovery: Maybe<string>, video_link: Maybe<string>, wikipedia: Maybe<string> }> }> };
+export type LaunchDetailsQuery = { launch: Maybe<{ id: Maybe<string>, mission_name: Maybe<string>, details: Maybe<string>, launch_date_utc: Maybe<any>, launch_year: Maybe<string>, launch_success: Maybe<boolean>, launch_site: Maybe<{ site_name: Maybe<string>, site_name_long: Maybe<string> }>, links: Maybe<{ mission_patch: Maybe<string>, mission_patch_small: Maybe<string>, article_link: Maybe<string>, flickr_images: Maybe<Array<Maybe<string>>>, presskit: Maybe<string>, reddit_campaign: Maybe<string>, reddit_launch: Maybe<string>, reddit_media: Maybe<string>, reddit_recovery: Maybe<string>, video_link: Maybe<string>, wikipedia: Maybe<string> }>, rocket: Maybe<{ rocket_name: Maybe<string>, rocket_type: Maybe<string> }> }> };
 
 export const LaunchFieldsFragmentDoc = gql`
     fragment LaunchFields on Launch {
@@ -1331,15 +1331,15 @@ export const LaunchDetailsDocument = gql`
     query LaunchDetails($id: ID!) {
   launch(id: $id) {
     id
-    launch_date_utc
+    mission_name
     details
+    launch_date_utc
     launch_year
     launch_success
     launch_site {
       site_name
       site_name_long
     }
-    mission_name
     links {
       mission_patch
       mission_patch_small
@@ -1352,6 +1352,10 @@ export const LaunchDetailsDocument = gql`
       reddit_recovery
       video_link
       wikipedia
+    }
+    rocket {
+      rocket_name
+      rocket_type
     }
   }
 }

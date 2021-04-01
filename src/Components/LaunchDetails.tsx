@@ -1,21 +1,41 @@
 import {
+  Avatar,
   Box,
   Card,
   CardActionArea,
   CardContent,
   CardHeader,
   CircularProgress,
+  Divider,
   Grid,
+  Icon,
   makeStyles,
   Paper,
   Typography,
 } from "@material-ui/core";
+import { deepOrange, green, pink, purple } from "@material-ui/core/colors";
+import { Info, Description } from "@material-ui/icons/";
 import Image from "material-ui-image";
 import { useParams } from "react-router";
 import { DEFAULT_IMAGE } from "../Constants";
 import { useLaunchDetailsQuery } from "../generated/graphql";
 
 const useStyles = makeStyles((theme) => ({
+  pink: {
+    color: "inherit",
+    backgroundColor: pink[500],
+  },
+  green: {
+    color: "inherit",
+    backgroundColor: green[500],
+  },
+  deepOrange: {
+    color: "inherit",
+    backgroundColor: purple[500],
+  },
+  summary: {
+    height: "100%",
+  },
   media: {
     height: "100%",
     width: "100%",
@@ -46,14 +66,6 @@ const LaunchDetails = () => {
   });
   console.log("data:", data);
 
-  // use first flickr image as the main image, otherwise use defaultImage
-  const mainImage =
-    data &&
-    data.launch?.links?.flickr_images &&
-    data.launch?.links?.flickr_images?.length > 0
-      ? String(data.launch?.links?.flickr_images[0])
-      : DEFAULT_IMAGE;
-
   return (
     <>
       {error && (
@@ -75,59 +87,318 @@ const LaunchDetails = () => {
           <CircularProgress size={100} thickness={4} />
         </Box>
       )}
-      {data && (
+      {data && data.launch && (
         <div>
           <Box mt={4}>
             <Grid container spacing={3}>
-              {data.launch?.links && (
-                <>
-                  <Grid item xs={12}>
-                    <Typography variant="h4">Launch Details</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Paper variant="outlined">
-                      <Image
-                        color="inherit"
-                        imageStyle={{ borderRadius: "4px" }}
-                        src={String(data.launch.links.mission_patch_small)}
-                        disableError={true}
-                        onError={(e) => {
-                          if (e) {
-                            e.currentTarget.src = mainImage;
-                          }
-                        }}
-                        title={
-                          data.launch.mission_name
-                            ? data.launch.mission_name
-                            : "SpaceX"
-                        }
-                        alt={
-                          data.launch.mission_name
-                            ? data.launch.mission_name
-                            : "SpaceX"
-                        }
-                      />
-                    </Paper>
-                  </Grid>
-                </>
-              )}
+              <Grid item xs={12}>
+                <Typography variant="h4">{`Mission ${data.launch?.mission_name}`}</Typography>
+              </Grid>
               <Grid item xs={6}>
-                <Card variant="outlined">
+                <Paper variant="outlined">
+                  <Image
+                    aspectRatio={4 / 3}
+                    color="inherit"
+                    imageStyle={{ borderRadius: "4px" }}
+                    src={String(data.launch.links?.mission_patch_small)}
+                    disableError={true}
+                    onError={(e) => {
+                      if (e) {
+                        e.currentTarget.src = DEFAULT_IMAGE;
+                      }
+                    }}
+                    title={data.launch.mission_name?.toString()}
+                    alt={data.launch.mission_name?.toString()}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Card variant="outlined" className={classes.summary}>
                   <CardHeader
-                    title={`Mission: ${data.launch?.mission_name}`}
-                    subheader={`Launch Date: ${new Date(
-                      data.launch?.launch_date_utc
-                    ).toDateString()}`}
+                    title={<Typography variant="h5">Summary</Typography>}
+                    avatar={
+                      <Avatar className={classes.pink}>
+                        <Info />
+                      </Avatar>
+                    }
                   ></CardHeader>
                   <CardContent>
-                    <Typography>{data.launch?.details}</Typography>
+                    <Grid container spacing={1}>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Launch Site
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {/* {data.launch.launch_site?.site_name_long} */}
+                          {data.launch.launch_site?.site_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Site Name
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.launch_site?.site_name_long}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Launch Date
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {new Date(
+                            data.launch?.launch_date_utc
+                          ).toDateString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Mission Status
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="body1"
+                          color={
+                            data.launch.launch_success ? "textPrimary" : "error"
+                          }
+                        >
+                          {data.launch.launch_success ? "Success" : "Failed"}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Rocket Name
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.rocket?.rocket_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Rocket Type
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.rocket?.rocket_type}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6}>
+                <Card variant="outlined" className={classes.summary}>
+                  <CardHeader
+                    title={<Typography variant="h5">Launch Details</Typography>}
+                    avatar={
+                      <Avatar className={classes.green}>
+                        <Description />
+                      </Avatar>
+                    }
+                  ></CardHeader>
+
+                  <CardContent>
+                    <Typography align="justify">
+                      {data.launch?.details}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {data.launch.links?.flickr_images
+                ?.slice(0, 2)
+                .map((image, index) => {
+                  return (
+                    <Grid item xs={6} key={index}>
+                      <Paper variant="outlined">
+                        <Image
+                          aspectRatio={4 / 3}
+                          color="inherit"
+                          imageStyle={{ borderRadius: "4px" }}
+                          src={String(image)}
+                          title={data.launch?.mission_name?.toString()}
+                          alt={data.launch?.mission_name?.toString()}
+                        />
+                      </Paper>
+                    </Grid>
+                  );
+                })}
+              <Grid item xs={6}>
+                <Card variant="outlined" className={classes.summary}>
+                  <CardHeader
+                    title={<Typography variant="h5">Rocket Details</Typography>}
+                    avatar={
+                      <Avatar className={classes.deepOrange}>
+                        <Icon className="fas fa-rocket" />
+                      </Avatar>
+                    }
+                  ></CardHeader>
+                  <CardContent>
+                    <Grid container spacing={1}>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Launch Site
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {/* {data.launch.launch_site?.site_name_long} */}
+                          {data.launch.launch_site?.site_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Site Name
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.launch_site?.site_name_long}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Launch Date
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {new Date(
+                            data.launch?.launch_date_utc
+                          ).toDateString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Mission Status
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="body1"
+                          color={
+                            data.launch.launch_success ? "textPrimary" : "error"
+                          }
+                        >
+                          {data.launch.launch_success ? "Success" : "Failed"}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Rocket Name
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.rocket?.rocket_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Divider></Divider>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="body1"
+                          color="textSecondary"
+                          noWrap
+                        >
+                          Rocket Type
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography variant="body1">
+                          {data.launch.rocket?.rocket_type}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </CardContent>
                 </Card>
               </Grid>
             </Grid>
           </Box>
-          {data.launch?.links?.flickr_images &&
-            data.launch?.links?.flickr_images.length > 0 && (
+
+          {data.launch.links?.flickr_images &&
+            data.launch.links?.flickr_images.length > 0 && (
               <Box mt={4}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -143,8 +414,12 @@ const LaunchDetails = () => {
                           >
                             <CardActionArea>
                               <Image
+                                aspectRatio={16 / 9}
                                 color="inherit"
-                                src={image ? image : DEFAULT_IMAGE}
+                                imageStyle={{ borderRadius: "4px" }}
+                                src={String(image)}
+                                title={data.launch?.mission_name?.toString()}
+                                alt={data.launch?.mission_name?.toString()}
                               />
                             </CardActionArea>
                           </a>
