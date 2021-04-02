@@ -9,10 +9,8 @@ script:
 
 deploy:
   provider: heroku
-  api_key:
-    secure: "YOUR ENCRYPTED API KEY"
+  app: spacex-bootcamp
   edge: true
   project: ./build/
-  domain: timerapp.nabeelfarid.surge.sh
   on:
     branch: main
