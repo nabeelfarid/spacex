@@ -3,9 +3,9 @@ node_js:
   - stable
 
 script:
-  - npm install
-  - npm test
-  - npm run build
+  - yarn install
+  - yarn test
+  - yarn run build
 
 deploy:
   provider: heroku
