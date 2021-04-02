@@ -11,6 +11,5 @@ deploy:
   provider: heroku
   app: spacex-bootcamp
   edge: true
-  project: ./build/
   on:
     branch: main
