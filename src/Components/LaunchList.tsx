@@ -8,7 +8,7 @@ const LaunchList = () => {
   return (
     <div>
       {error && (
-        <Box mt={4} textAlign="center">
+        <Box mt={4} textAlign="center" role="error-panel">
           <Typography variant="h4" color="error" gutterBottom>
             ERROR:
           </Typography>
@@ -19,7 +19,7 @@ const LaunchList = () => {
         </Box>
       )}
       {loading && (
-        <Box mt={4} textAlign="center">
+        <Box mt={4} textAlign="center" role="loading-panel">
           <Typography variant="h4" gutterBottom>
             LOADING...
           </Typography>
@@ -27,10 +27,12 @@ const LaunchList = () => {
         </Box>
       )}
       {data && (
-        <Box mt={4}>
+        <Box mt={4} role="data-panel">
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="h4">SpaceX Launches</Typography>
+              <Typography variant="h4" role="heading">
+                SpaceX Launches
+              </Typography>
             </Grid>
             {data.launchesPast?.map((launch) => {
               return (

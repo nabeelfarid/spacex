@@ -18,8 +18,9 @@ import { LaunchFieldsFragment } from "../generated/graphql";
 import { Box } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import { Link, useRouteMatch } from "react-router-dom";
-import { DEFAULT_IMAGE } from "../Constants";
+import { DEFAULT_IMAGE } from "../constants";
 import Image from "material-ui-image";
+import { text_truncate } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,20 +29,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
 }));
-
-const text_truncate = (str: string, length?: number, ending?: string) => {
-  if (length == null) {
-    length = 180;
-  }
-  if (ending == null) {
-    ending = "...";
-  }
-  if (str.length > length) {
-    return str.substring(0, length - ending.length) + ending;
-  } else {
-    return str;
-  }
-};
 
 interface LaunchListItemProps {
   launch: LaunchFieldsFragment;
@@ -68,8 +55,9 @@ const LaunchListItem: React.FC<LaunchListItemProps> = ({ launch }) => {
     <>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <Box boxShadow={3} height="100%">
-          <Card className={classes.root} variant="outlined">
+          <Card className={classes.root} variant="outlined" role="launch-card">
             <CardHeader
+              role="launch-card-header"
               avatar={
                 <Avatar src={String(launch.links?.mission_patch_small)}>
                   <Avatar src={avatarFallback}></Avatar>
