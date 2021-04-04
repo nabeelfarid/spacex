@@ -8,8 +8,8 @@ script:
   - yarn build
 
 deploy:
-  provider: heroku
-  app: spacex-bootcamp
+  provider: firebase
+  app: spacex-8d372
   edge: true
   on:
     branch: main
