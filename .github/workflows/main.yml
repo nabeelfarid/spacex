@@ -32,7 +32,10 @@ jobs:
           
       - name: Install Node Modules
         run: npm install
-      
+
+      - name: Run All Tests
+        run: npm run test
+        
       - name: Build Project
         run: npm run build
       
