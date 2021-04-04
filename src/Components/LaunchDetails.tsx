@@ -87,7 +87,11 @@ const LaunchDetails = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Card variant="outlined" className={classes.summary}>
+                <Card
+                  variant="outlined"
+                  className={classes.summary}
+                  data-testid="summary-card"
+                >
                   <CardHeader
                     title={<Typography variant="h5">Summary</Typography>}
                     avatar={
@@ -105,8 +109,7 @@ const LaunchDetails = () => {
                       </Grid>
                       <Grid item xs={8}>
                         <Typography>
-                          {data.launch.launch_site?.site_name},{" "}
-                          {data.launch.launch_site?.site_name_long}
+                          {`${data.launch.launch_site?.site_name}, ${data.launch.launch_site?.site_name_long}`}
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
@@ -204,7 +207,11 @@ const LaunchDetails = () => {
                 </Card>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Card variant="outlined" className={classes.summary}>
+                <Card
+                  variant="outlined"
+                  className={classes.summary}
+                  data-testid="launch-details-card"
+                >
                   <CardHeader
                     title={<Typography variant="h5">Launch Details</Typography>}
                     avatar={

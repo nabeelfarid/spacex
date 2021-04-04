@@ -3,13 +3,11 @@ import {
   waitForElementToBeRemoved,
   within,
 } from "@testing-library/react";
-import {
-  LaunchDetailsDocument,
-  LaunchesPastDocument,
-} from "../generated/graphql";
+import { LaunchDetailsDocument } from "../generated/graphql";
 import { GraphQLError } from "graphql";
 import { TestData_LaunchDetails } from "./testData";
 import { Visit } from "./testUtils";
+import escapeStringRegexp from "escape-string-regexp";
 
 const launchId = TestData_LaunchDetails.data.launch.id;
 const url = `/${launchId}`;
@@ -59,7 +57,10 @@ describe("Launch Details Page", () => {
     const mockData = [
       {
         request: {
-          query: LaunchesPastDocument,
+          query: LaunchDetailsDocument,
+          variables: {
+            id: launchId,
+          },
         },
         result: {
           errors: [new GraphQLError("Graphql server responded with an error!")],
@@ -67,7 +68,7 @@ describe("Launch Details Page", () => {
       },
     ];
 
-    Visit("/", mockData);
+    Visit(url, mockData);
 
     await waitForElementToBeRemoved(screen.getByRole("loading-panel"));
 
@@ -76,7 +77,124 @@ describe("Launch Details Page", () => {
     expect(within(errorPanel).getByText("ERROR:")).toBeInTheDocument();
     expect(
       within(errorPanel).getByText(
-        /"graphQLErrors":\[{"message":"Graphql server responded with an error!"}\]/i
+        new RegExp(
+          escapeStringRegexp(
+            `"graphQLErrors":[{"message":"Graphql server responded with an error!"}]`
+          )
+        )
+      )
+    ).toBeInTheDocument();
+  });
+
+  test("WHEN api server responds successfully, Should display Mission Name in the header", async () => {
+    const mockData = [
+      {
+        request: {
+          query: LaunchDetailsDocument,
+          variables: {
+            id: launchId,
+          },
+        },
+        result: TestData_LaunchDetails,
+      },
+    ];
+
+    Visit(url, mockData);
+
+    await waitForElementToBeRemoved(screen.getByRole("loading-panel"));
+
+    expect(
+      screen.getByRole("heading", {
+        name: new RegExp(
+          escapeStringRegexp(TestData_LaunchDetails.data.launch.mission_name)
+        ),
+      })
+    ).toBeInTheDocument;
+  });
+
+  test("WHEN api server responds successfully, Should display summary card", async () => {
+    const mockData = [
+      {
+        request: {
+          query: LaunchDetailsDocument,
+          variables: {
+            id: launchId,
+          },
+        },
+        result: TestData_LaunchDetails,
+      },
+    ];
+
+    Visit(url, mockData);
+
+    await waitForElementToBeRemoved(screen.getByRole("loading-panel"));
+
+    let summaryCard = screen.getByTestId("summary-card");
+    expect(
+      within(summaryCard).getByText(
+        TestData_LaunchDetails.data.launch.launch_site.site_name,
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(summaryCard).getByText(
+        TestData_LaunchDetails.data.launch.launch_site.site_name_long,
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(summaryCard).getByText(
+        new Date(
+          TestData_LaunchDetails.data.launch.launch_date_utc
+        ).toDateString(),
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(summaryCard).getByText(
+        TestData_LaunchDetails.data.launch.launch_success
+          ? "Success"
+          : "Failed",
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(summaryCard).getByText(
+        TestData_LaunchDetails.data.launch.rocket.rocket_name,
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(summaryCard).getByText(
+        TestData_LaunchDetails.data.launch.rocket.rocket_type,
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+  });
+
+  test("WHEN api server responds successfully, Should display details card", async () => {
+    const mockData = [
+      {
+        request: {
+          query: LaunchDetailsDocument,
+          variables: {
+            id: launchId,
+          },
+        },
+        result: TestData_LaunchDetails,
+      },
+    ];
+
+    Visit(url, mockData);
+
+    await waitForElementToBeRemoved(screen.getByRole("loading-panel"));
+
+    let detailsCard = screen.getByTestId("launch-details-card");
+    expect(
+      within(detailsCard).getByText(
+        new RegExp(
+          escapeStringRegexp(TestData_LaunchDetails.data.launch.details)
+        )
       )
     ).toBeInTheDocument();
   });
