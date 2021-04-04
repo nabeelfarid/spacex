@@ -20,10 +20,12 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import RedditIcon from "@material-ui/icons/Reddit";
 import Image from "material-ui-image";
 import { useParams } from "react-router";
-import { DEFAULT_IMAGE } from "../constants";
 import { useLaunchDetailsQuery } from "../generated/graphql";
 import Error from "./Error";
 import Loader from "./Loader";
+
+const DEFAULT_IMAGE =
+  "https://live.staticflickr.com/7855/buddyicons/130608600@N05_r.jpg";
 
 const useStyles = makeStyles((theme) => ({
   pink: {
