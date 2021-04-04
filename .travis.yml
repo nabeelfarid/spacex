@@ -9,7 +9,7 @@ script:
 
 deploy:
   provider: firebase
-  app: spacex-8d372
+  project: spacex-8d372
   edge: true
   on:
     branch: main
