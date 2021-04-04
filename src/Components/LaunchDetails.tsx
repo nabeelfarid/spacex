@@ -6,7 +6,6 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CircularProgress,
   Divider,
   Grid,
   Icon,
@@ -23,6 +22,8 @@ import Image from "material-ui-image";
 import { useParams } from "react-router";
 import { DEFAULT_IMAGE } from "../constants";
 import { useLaunchDetailsQuery } from "../generated/graphql";
+import Error from "./Error";
+import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({
   pink: {
@@ -53,29 +54,11 @@ const LaunchDetails = () => {
       id: id,
     },
   });
-  console.log("data:", data);
 
   return (
     <>
-      {error && (
-        <Box mt={4} textAlign="center">
-          <Typography variant="h4" color="error" gutterBottom>
-            ERROR:
-          </Typography>
-
-          <Typography component="div">
-            <Box letterSpacing={4}>{JSON.stringify(error)}</Box>
-          </Typography>
-        </Box>
-      )}
-      {loading && (
-        <Box mt={4} textAlign="center">
-          <Typography variant="h4" gutterBottom>
-            LOADING...
-          </Typography>
-          <CircularProgress size={100} thickness={4} />
-        </Box>
-      )}
+      {error && <Error error={error} />}
+      {loading && <Loader />}
       {data && data.launch && (
         <div>
           <Box mt={4}>

@@ -9,20 +9,6 @@ import { TestData } from "./testData";
 import { text_truncate } from "../utils";
 import { Visit } from "./testUtils";
 
-describe("Website Banner", () => {
-  test("Should display SpaceX Brand and Github Repo Links", () => {
-    Visit("/");
-
-    let banner = screen.getByRole("banner");
-    expect(
-      within(banner).getByRole("link", { name: /spacex/i })
-    ).toBeInTheDocument();
-    expect(
-      within(banner).getByRole("link", { name: /github/i })
-    ).toBeInTheDocument();
-  });
-});
-
 describe("Launch Index Page", () => {
   test("Should display website banner", () => {
     Visit("/");
@@ -81,7 +67,9 @@ describe("Launch Index Page", () => {
     expect(errorPanel).toBeInTheDocument();
     expect(within(errorPanel).getByText("ERROR:")).toBeInTheDocument();
     expect(
-      within(errorPanel).getByText(/"Graphql server responded with an error!"/i)
+      within(errorPanel).getByText(
+        /"graphQLErrors":\[{"message":"Graphql server responded with an error!"}\]/i
+      )
     ).toBeInTheDocument();
   });
 
