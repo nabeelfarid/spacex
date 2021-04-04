@@ -1,6 +1,6 @@
-SpaceX App URL: https://spacex-8d372.web.app/ (hosted on firebase via travis-ci)
+# SpaceX App 
+URL: https://spacex-8d372.web.app/ (hosted on firebase via travis-ci)
 
-# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
