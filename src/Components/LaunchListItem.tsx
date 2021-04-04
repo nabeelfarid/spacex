@@ -18,9 +18,11 @@ import { LaunchFieldsFragment } from "../generated/graphql";
 import { Box } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import { Link, useRouteMatch } from "react-router-dom";
-import { DEFAULT_IMAGE } from "../constants";
 import Image from "material-ui-image";
 import { text_truncate } from "../utils";
+
+const DEFAULT_IMAGE =
+  "https://live.staticflickr.com/7855/buddyicons/130608600@N05_r.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
